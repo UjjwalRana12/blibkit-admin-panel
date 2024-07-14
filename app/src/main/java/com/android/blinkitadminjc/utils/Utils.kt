@@ -30,7 +30,7 @@ fun CommonDialog(isLoading: Boolean, onDismissRequest: () -> Unit = {}) {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+               CircularProgressIndicator()
             }
         }
     }
