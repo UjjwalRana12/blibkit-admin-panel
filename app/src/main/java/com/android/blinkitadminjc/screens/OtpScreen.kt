@@ -32,7 +32,7 @@ fun PhoneAuthScreen(viewModel: AuthViewModel, activity: ComponentActivity, navCo
 
     val context = LocalContext.current
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.Yellow),contentAlignment = Alignment.Center) {
         when (uiState) {
             is AuthViewModel.AuthUiState.Idle -> {
                 Column(
@@ -104,7 +104,7 @@ fun PhoneAuthScreen(viewModel: AuthViewModel, activity: ComponentActivity, navCo
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White)
+                        .background(Color.Yellow)
                         .padding(16.dp)
                 ) {
                     Image(
