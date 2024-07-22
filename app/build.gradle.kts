@@ -94,4 +94,7 @@ dependencies {
 
     //lazy column
     implementation ("androidx.compose.foundation:foundation:1.3.0")
+
+    //coil
+    implementation("io.coil-kt:coil-compose:2.1.0")
 }

@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.blinkitjc.model.User
+import com.android.blinkitjc.model.Admin
 import com.android.blinkitjc.utils.Utils
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -111,11 +111,11 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 auth.signInWithCredential(credential).await()
-                val userId = Utils.getCurrentUserID()
-                if (userId != null) {
-                    val user = User(uid = userId, userPhoneNumber = phoneNumber, userAddress = null)
-                    FirebaseDatabase.getInstance().getReference("allUsers").child("Users")
-                        .child(user.uid!!).setValue(user)
+                val AdminId = Utils.getCurrentUserID()
+                if (AdminId != null) {
+                    val admin = Admin(uid = AdminId, userPhoneNumber = phoneNumber, userAddress = null)
+                    FirebaseDatabase.getInstance().getReference("Admin").child("adminInfo")
+                        .child(admin.uid!!).setValue(admin)
                     _uiState.value = AuthUiState.Success
                 } else {
                     _uiState.value = AuthUiState.Error("Failed to retrieve user ID")

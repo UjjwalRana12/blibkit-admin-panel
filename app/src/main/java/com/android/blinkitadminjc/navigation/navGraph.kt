@@ -20,7 +20,7 @@ import com.android.blinkitadminjc.screens.splashScreen
 fun navGraph(navController: NavHostController,activity: ComponentActivity){
     val viewModel: AuthViewModel = viewModel()
 
-        NavHost(navController = navController, startDestination = Routes.Splash.routes ){
+        NavHost(navController = navController, startDestination = Routes.AddProduct.routes ){
 
             composable(Routes.Splash.routes){
                 splashScreen(navController,viewModel)
