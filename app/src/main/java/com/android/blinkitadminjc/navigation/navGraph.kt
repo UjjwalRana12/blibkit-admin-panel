@@ -14,11 +14,13 @@ import com.android.blinkitadminjc.screens.bottomNav
 import com.android.blinkitadminjc.screens.homeScreen
 import com.android.blinkitadminjc.screens.orderScreen
 import com.android.blinkitadminjc.screens.splashScreen
+import com.android.blinkitadminjc.viewmodel.AdminViewModel
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun navGraph(navController: NavHostController,activity: ComponentActivity){
     val viewModel: AuthViewModel = viewModel()
+    val adminViewModel: AdminViewModel = viewModel()
 
         NavHost(navController = navController, startDestination = Routes.AddProduct.routes ){
 
