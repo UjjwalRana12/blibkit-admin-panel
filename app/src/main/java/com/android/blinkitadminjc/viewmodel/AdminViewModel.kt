@@ -6,34 +6,40 @@ import com.android.blinkitjc.utils.Utils
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
-class AdminViewModel:ViewModel() {
+class AdminViewModel: ViewModel() {
 
     private val _isImageUploaded = MutableStateFlow(false)
-    var isImageUploaded : StateFlow<Boolean> = _isImageUploaded
+    val isImageUploaded: StateFlow<Boolean> get() = _isImageUploaded
 
-    private val _downloadUrls = MutableStateFlow<ArrayList<String?>>(arrayListOf())
-    var downloadUrls : StateFlow<ArrayList<String?>> = _downloadUrls
+    private val _downloadUrls = MutableStateFlow<List<String>>(emptyList())
+    val downloadUrls: StateFlow<List<String>> get() = _downloadUrls
 
+    fun saveImageInDB(imageUris: List<Uri>) {
+        val downloadURLs = mutableListOf<String>()
 
-    fun saveImageInDB(imageUri:ArrayList<Uri>){
-        val downloadURLs=ArrayList<String?>()
-
-        imageUri.forEach {uri->
-            val imageRef= FirebaseStorage.getInstance().reference.child(Utils.getCurrentUserID().toString())
-            imageRef.putFile(uri).continueWithTask{
-                imageRef.downloadUrl
-            }.addOnCompleteListener {task->
-                val url = task.result
-                downloadURLs.add(url.toString())
-
-                if(downloadURLs.size==imageUri.size){
-                    _isImageUploaded.value = true
-                    _downloadUrls.value= downloadURLs
+        imageUris.forEach { uri ->
+            val imageRef = FirebaseStorage.getInstance().reference.child(Utils.getCurrentUserID().toString())
+            imageRef.putFile(uri).continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let { throw it }
                 }
+                imageRef.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val url = task.result.toString()
+                    downloadURLs.add(url)
 
+                    if (downloadURLs.size == imageUris.size) {
+                        _isImageUploaded.value = true
+                        _downloadUrls.value = downloadURLs
+                    }
+                } else {
+
+                    _isImageUploaded.value = false
+                }
             }
         }
-
     }
 }

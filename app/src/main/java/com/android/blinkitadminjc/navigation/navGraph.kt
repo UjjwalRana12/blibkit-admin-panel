@@ -22,7 +22,7 @@ fun navGraph(navController: NavHostController,activity: ComponentActivity){
     val viewModel: AuthViewModel = viewModel()
     val adminViewModel: AdminViewModel = viewModel()
 
-        NavHost(navController = navController, startDestination = Routes.AddProduct.routes ){
+        NavHost(navController = navController, startDestination = Routes.Splash.routes ){
 
             composable(Routes.Splash.routes){
                 splashScreen(navController,viewModel)

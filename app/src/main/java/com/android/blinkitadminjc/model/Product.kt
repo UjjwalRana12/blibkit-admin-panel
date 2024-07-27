@@ -13,6 +13,6 @@ data class Product(
     var itemCount:Int?=null,
     var productTitle:String?=null,
     var adminUID:String?=null,
-    var productImageUris:ArrayList<String?> ? = null,
+    var imageUrls: List<String?>? = null
 
 )
