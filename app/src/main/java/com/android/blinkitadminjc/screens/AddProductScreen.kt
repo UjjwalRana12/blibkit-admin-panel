@@ -44,7 +44,7 @@ fun AddProduct(navController: NavHostController) {
     var productCategoryState by remember { mutableStateOf("") }
     var productTypeState by remember { mutableStateOf("") }
     var selectedImageUris by remember { mutableStateOf(emptyList<Uri>()) }
-    var isLoading by remember { mutableStateOf(false) }
+    var showLoadingDialog by remember { mutableStateOf(false) }
 
     fun validateInputs(): Boolean {
         return productTitleState.isNotBlank() && quantityState.isNotBlank() && unitState.isNotBlank() &&
@@ -54,7 +54,7 @@ fun AddProduct(navController: NavHostController) {
 
     LaunchedEffect(key1 = adminViewModel.isImageUploaded.collectAsState().value) {
         if (adminViewModel.isImageUploaded.value) {
-            isLoading = false
+            showLoadingDialog = false
             Toast.makeText(context, "Product added successfully", Toast.LENGTH_SHORT).show()
             navController.popBackStack()
         }
@@ -66,6 +66,7 @@ fun AddProduct(navController: NavHostController) {
 
             Text(text = "Please fill product details", fontSize = 22.sp, color = Color.Yellow)
 
+            // Input fields
             TextField(
                 value = productTitleState,
                 placeholder = { Text(text = "Product Title") },
@@ -148,12 +149,10 @@ fun AddProduct(navController: NavHostController) {
                 selectedImageUris = uris
             })
 
-            if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.padding(16.dp))
-            }
-
             Button(onClick = {
                 if (validateInputs()) {
+                    showLoadingDialog = true
+
                     val product = Product(
                         productRandomId = UUID.randomUUID().toString(),
                         productQuantity = quantityState.toIntOrNull(),
@@ -167,8 +166,8 @@ fun AddProduct(navController: NavHostController) {
                         itemCount = 0,
                     )
 
-
                     adminViewModel.saveImageInDB(selectedImageUris)
+                    adminViewModel.saveProduct(product)
                 } else {
                     Toast.makeText(context, "Please fill all fields and select images", Toast.LENGTH_SHORT).show()
                 }
@@ -176,8 +175,15 @@ fun AddProduct(navController: NavHostController) {
                 Text(text = "Add Product")
             }
         }
+
+        if (showLoadingDialog) {
+            Utils.LoadingDialog(message = "Uploading images and saving product...", onDismissRequest = {
+                showLoadingDialog = false
+            })
+        }
     }
 }
+
 
 
 
