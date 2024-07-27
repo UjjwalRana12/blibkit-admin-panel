@@ -89,6 +89,10 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.0.0")
+    implementation ("com.google.firebase:firebase-appcheck:16.1.2")
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity:16.1.2")
+    // or
+    implementation ("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
 
 
 

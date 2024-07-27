@@ -7,8 +7,9 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import java.util.UUID
 
-class AdminViewModel: ViewModel() {
+class AdminViewModel : ViewModel() {
 
     private val _isImageUploaded = MutableStateFlow(false)
     val isImageUploaded: StateFlow<Boolean> get() = _isImageUploaded
@@ -20,7 +21,9 @@ class AdminViewModel: ViewModel() {
         val downloadURLs = mutableListOf<String>()
 
         imageUris.forEach { uri ->
-            val imageRef = FirebaseStorage.getInstance().reference.child(Utils.getCurrentUserID().toString())
+            val imageRef =
+                FirebaseStorage.getInstance().reference.child(Utils.getCurrentUserID().toString())
+                    .child("images").child(UUID.randomUUID().toString())
             imageRef.putFile(uri).continueWithTask { task ->
                 if (!task.isSuccessful) {
                     task.exception?.let { throw it }
