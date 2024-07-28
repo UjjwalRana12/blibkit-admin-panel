@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -28,8 +27,6 @@ import coil.compose.AsyncImage
 import com.android.blinkitadminjc.model.Product
 import com.android.blinkitadminjc.viewmodel.AdminViewModel
 import com.android.blinkitjc.utils.Utils
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.UUID
 @Composable
 fun AddProduct(navController: NavHostController) {
