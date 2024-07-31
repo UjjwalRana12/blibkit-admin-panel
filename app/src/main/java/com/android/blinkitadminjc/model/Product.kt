@@ -1,9 +1,7 @@
 package com.android.blinkitadminjc.model
 
-import java.util.UUID
-
 data class Product(
-    var productRandomId:String =UUID.randomUUID().toString(),
+    var productRandomId:String? =null,
     var productQuantity:Int?=null,
     var productUnit:String?=null,
     var productPrice:Int?=null,
@@ -13,6 +11,6 @@ data class Product(
     var itemCount:Int?=null,
     var productTitle:String?=null,
     var adminUID:String?=null,
-    var imageUrls: List<String?>? = null
+    var imageUrls: MutableList<String>? = mutableListOf()
 
 )

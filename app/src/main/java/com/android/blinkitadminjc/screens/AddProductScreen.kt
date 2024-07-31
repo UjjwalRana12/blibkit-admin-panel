@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -30,7 +29,6 @@ import coil.compose.AsyncImage
 import com.android.blinkitadminjc.model.Product
 import com.android.blinkitadminjc.viewmodel.AdminViewModel
 import com.android.blinkitjc.utils.Utils
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -232,7 +230,7 @@ fun AddProduct(navController: NavHostController) {
                     showLoadingDialog = true
 
                     val product = Product(
-                        productRandomId = UUID.randomUUID().toString(),
+
                         productQuantity = quantityState.toIntOrNull(),
                         productUnit = unitState,
                         productPrice = priceState.toIntOrNull(),
@@ -242,10 +240,12 @@ fun AddProduct(navController: NavHostController) {
                         productTitle = productTitleState,
                         adminUID = Utils.getCurrentUserID(),
                         itemCount = 0,
+                        productRandomId = generateRandomId(10),
                     )
 
                     adminViewModel.saveImageInDB(selectedImageUris)
                     adminViewModel.saveProduct(product)
+                    adminViewModel.saveAdmin(product,selectedImageUris)
                 } else {
                     Toast.makeText(
                         context,
@@ -266,6 +266,14 @@ fun AddProduct(navController: NavHostController) {
                 })
         }
     }
+
+}
+
+fun generateRandomId(length: Int): String {
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    return (1..length)
+        .map { chars.random() }
+        .joinToString("")
 }
 
 
