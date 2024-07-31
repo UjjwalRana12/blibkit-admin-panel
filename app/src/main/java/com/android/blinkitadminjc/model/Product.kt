@@ -14,3 +14,4 @@ data class Product(
     var imageUrls: MutableList<String>? = mutableListOf()
 
 )
+data class HomeItem(val imageResId: Int, val text: String)
