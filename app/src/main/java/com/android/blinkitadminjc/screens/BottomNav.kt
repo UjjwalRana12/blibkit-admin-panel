@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.android.blinkitadminjc.model.BottomNavItem
 import com.android.blinkitadminjc.navigation.Routes
 import com.android.blinkitadminjc.viewmodel.AdminViewModel
+import homeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +43,7 @@ fun bottomNav(navController: NavHostController){
         ) {
 
             composable(Routes.HomeScreen.routes) {
-               homeScreen(navController)
+                homeScreen(navController)
             }
 
             composable(route = Routes.Order.routes) {

@@ -11,10 +11,10 @@ import androidx.navigation.compose.composable
 import com.android.blinkitadminjc.screens.AddProduct
 import com.android.blinkitadminjc.screens.PhoneAuthScreen
 import com.android.blinkitadminjc.screens.bottomNav
-import com.android.blinkitadminjc.screens.homeScreen
 import com.android.blinkitadminjc.screens.orderScreen
 import com.android.blinkitadminjc.screens.splashScreen
 import com.android.blinkitadminjc.viewmodel.AdminViewModel
+import homeScreen
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
