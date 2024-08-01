@@ -1,13 +1,17 @@
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -16,7 +20,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,12 +33,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.android.blinkitadminjc.R
 import com.android.blinkitadminjc.model.HomeItem
 import com.android.blinkitadminjc.viewmodel.HomeViewModel
@@ -68,7 +81,7 @@ fun homeScreen(navController: NavHostController) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(18.dp)
         )
 
 
@@ -117,20 +130,7 @@ fun FixRow(items: List<HomeItem>) {
             Column(
                 modifier = Modifier.width(120.dp)
             ) {
-                Image(
-                    painter = painterResource(id = item.imageResId),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .height(80.dp)
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = item.text,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                fixProduct()
             }
         }
     }
@@ -153,18 +153,7 @@ fun ImageTextGrid(items: List<HomeItem>, columns: Int = 2) {
                     Column(
                         modifier = Modifier.weight(1f)
                     ) {
-                        Image(
-                            painter = painterResource(id = item.imageResId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(80.dp)
-                                .fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = item.text, maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                        SingleProduct()
                     }
                 }
 
@@ -176,4 +165,116 @@ fun ImageTextGrid(items: List<HomeItem>, columns: Int = 2) {
             }
         }
     }
+}
+@Composable
+fun SingleProduct() {
+    Box(
+        modifier = Modifier
+            .padding(2.dp)
+            .height(180.dp)
+            .width(150.dp)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp)
+                .wrapContentSize(),
+            shape = RoundedCornerShape(8.dp),
+
+        ) {
+            Column(
+                modifier = Modifier.padding(2.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.amulic1),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.6f)
+                        .width(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Amul Packet",
+                    fontSize=12.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Price: \$10" ,fontSize=10.sp,)
+
+                    Button(
+                        onClick = {  },
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Magenta,
+
+                        )
+
+
+                    ) {
+                        Text(text = "Edit", color = Color.White,fontSize=10.sp)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun fixProduct(){
+    Box(
+        modifier = Modifier
+            .padding(start=0.5.dp)
+            .height(120.dp)
+            .width(90.dp)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp)
+                .wrapContentSize(),
+            shape = RoundedCornerShape(8.dp),
+
+            ) {
+            Column(
+                modifier = Modifier.padding(2.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.amulic1),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.85f)
+                        .width(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Text(
+                    text = "Amul Packet",
+                    fontSize=9.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+            }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun jfnkjf() {
+    SingleProduct()
 }
