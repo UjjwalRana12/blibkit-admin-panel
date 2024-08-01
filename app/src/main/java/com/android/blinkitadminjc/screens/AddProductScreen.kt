@@ -36,9 +36,9 @@ fun AddProduct(navController: NavHostController) {
     val adminViewModel: AdminViewModel = viewModel()
     val context = LocalContext.current
 
-    val list = listOf("one", "two", "three")
-    val list_one = listOf("one", "two", "three")
-    val list_two = listOf("one", "two", "three")
+    val product_category = listOf("Household", "Electronics", "Foods", "Furniture", "Drinks","Kitchen")
+    val product_type = listOf("one", "two", "three")
+    val unit_list = listOf("1", "2", "3","more than 3")
 
     var isExpandable by remember { mutableStateOf(false) }
     var isExpandable_one by remember { mutableStateOf(false) }
@@ -50,7 +50,7 @@ fun AddProduct(navController: NavHostController) {
     var unitState by remember { mutableStateOf("") }
     var priceState by remember { mutableStateOf("") }
     var numberStockState by remember { mutableStateOf("") }
-    var productCategoryState by remember { mutableStateOf(list[0]) }
+    var productCategoryState by remember { mutableStateOf("") }
     var productTypeState by remember { mutableStateOf("") }
     var selectedImageUris by remember { mutableStateOf(emptyList<Uri>()) }
     var showLoadingDialog by remember { mutableStateOf(false) }
@@ -112,11 +112,11 @@ fun AddProduct(navController: NavHostController) {
                 ExposedDropdownMenu(
                     expanded = isExpandable_two,
                     onDismissRequest = { isExpandable_two = false }) {
-                    list.forEachIndexed { index, text ->
+                    unit_list.forEachIndexed { index, text ->
                         DropdownMenuItem(
                             text = { Text(text) },
                             onClick = {
-                                unitState = list_two[index]
+                                unitState = unit_list[index]
                                 isExpandable_two = false
 
                             },
@@ -175,11 +175,11 @@ fun AddProduct(navController: NavHostController) {
                 ExposedDropdownMenu(
                     expanded = isExpandable,
                     onDismissRequest = { isExpandable = false }) {
-                    list.forEachIndexed { index, text ->
+                    product_category.forEachIndexed { index, text ->
                         DropdownMenuItem(
                             text = { Text(text) },
                             onClick = {
-                                productCategoryState = list[index]
+                                productCategoryState = product_category[index]
                                 isExpandable = false
 
                             },
@@ -207,11 +207,11 @@ fun AddProduct(navController: NavHostController) {
                 ExposedDropdownMenu(
                     expanded = isExpandable_one,
                     onDismissRequest = { isExpandable_one = false }) {
-                    list.forEachIndexed { index, text ->
+                    product_type.forEachIndexed { index, text ->
                         DropdownMenuItem(
                             text = { Text(text) },
                             onClick = {
-                                productTypeState = list_one[index]
+                                productTypeState = product_type[index]
                                 isExpandable_one = false
 
                             },

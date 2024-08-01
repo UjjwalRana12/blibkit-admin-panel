@@ -33,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,13 +45,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.android.blinkitadminjc.R
 import com.android.blinkitadminjc.model.HomeItem
+import com.android.blinkitadminjc.model.Product
 import com.android.blinkitadminjc.viewmodel.HomeViewModel
 
 @Composable
 fun homeScreen(navController: NavHostController) {
     val homeViewModel: HomeViewModel = viewModel()
+
+    val products by homeViewModel.products.collectAsState()
+
+    LaunchedEffect(Unit) {
+        homeViewModel.fetchProducts()
+    }
+
     val blinkitFoodItems = listOf(
         HomeItem(R.drawable.homi1, "Banana - Fresh and ripe bananas, packed with energy."),
         HomeItem(R.drawable.homi2, "Apple - Crisp and juicy apples, full of flavor."),
@@ -93,7 +103,7 @@ fun homeScreen(navController: NavHostController) {
                 .fillMaxWidth()
                 .height(8.dp)
         )
-        ImageTextGrid(items = blinkitFoodItems, 2)
+        ImageTextGrid(products, 2)
 
     }
 }
@@ -138,22 +148,22 @@ fun FixRow(items: List<HomeItem>) {
 }
 
 @Composable
-fun ImageTextGrid(items: List<HomeItem>, columns: Int = 2) {
+fun ImageTextGrid(products: List<Product>, columns: Int = 2) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        items(items.chunked(columns)) { rowItems ->
+        items(products.chunked(columns)) { rowItems ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                for (item in rowItems) {
+                for (product in rowItems) {
                     Column(
                         modifier = Modifier.weight(1f)
                     ) {
-                        SingleProduct()
+                        SingleProduct(product)
                     }
                 }
 
@@ -166,8 +176,9 @@ fun ImageTextGrid(items: List<HomeItem>, columns: Int = 2) {
         }
     }
 }
+
 @Composable
-fun SingleProduct() {
+fun SingleProduct(product: Product) {
     Box(
         modifier = Modifier
             .padding(2.dp)
@@ -180,26 +191,28 @@ fun SingleProduct() {
                 .padding(2.dp)
                 .wrapContentSize(),
             shape = RoundedCornerShape(8.dp),
-
         ) {
             Column(
                 modifier = Modifier.padding(2.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.amulic1),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.6f)
-                        .width(80.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
+                product.imageUrls?.firstOrNull()?.let { imageUrl ->
+                    Image(
+                        painter = rememberImagePainter(imageUrl),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.6f)
+                            .width(80.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Amul Packet",
-                    fontSize=12.sp,
+                    text = product.productTitle ?: "Unknown",
+                    fontSize = 12.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -209,19 +222,14 @@ fun SingleProduct() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "Price: \$10" ,fontSize=10.sp,)
+                    Text(text = "Price: \$${product.productPrice ?: 0}", fontSize = 10.sp)
 
                     Button(
                         onClick = {  },
                         shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Magenta,
-
-                        )
-
-
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Magenta)
                     ) {
-                        Text(text = "Edit", color = Color.White,fontSize=10.sp)
+                        Text(text = "Edit", color = Color.White, fontSize = 10.sp)
                     }
                 }
             }
@@ -233,7 +241,7 @@ fun SingleProduct() {
 fun fixProduct(){
     Box(
         modifier = Modifier
-            .padding(start=0.5.dp)
+            .padding(start = 0.5.dp)
             .height(120.dp)
             .width(90.dp)
     ) {
@@ -273,8 +281,3 @@ fun fixProduct(){
 }
 
 
-@Preview
-@Composable
-fun jfnkjf() {
-    SingleProduct()
-}
