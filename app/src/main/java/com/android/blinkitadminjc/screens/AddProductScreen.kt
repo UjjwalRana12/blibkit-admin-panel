@@ -243,9 +243,11 @@ fun AddProduct(navController: NavHostController) {
                         productRandomId = generateRandomId(10),
                     )
 
-                    adminViewModel.saveImageInDB(selectedImageUris)
-                    adminViewModel.saveProduct(product)
-                    adminViewModel.saveAdmin(product,selectedImageUris)
+                    adminViewModel.saveImageInDB(selectedImageUris) { downloadUrls ->
+                        val updatedProduct = product.copy(imageUrls = downloadUrls)
+                        adminViewModel.saveProduct(updatedProduct, selectedImageUris)
+                        adminViewModel.saveAdmin(updatedProduct, selectedImageUris)
+                    }
                 } else {
                     Toast.makeText(
                         context,

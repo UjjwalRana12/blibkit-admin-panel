@@ -11,7 +11,7 @@ data class Product(
     var itemCount:Int?=null,
     var productTitle:String?=null,
     var adminUID:String?=null,
-    var imageUrls: MutableList<String>? = mutableListOf()
+    var imageUrls: List<String> = mutableListOf()
 
 )
 data class HomeItem(val imageResId: Int, val text: String)
