@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
@@ -40,7 +39,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +48,11 @@ import com.android.blinkitadminjc.R
 import com.android.blinkitadminjc.model.HomeItem
 import com.android.blinkitadminjc.model.Product
 import com.android.blinkitadminjc.viewmodel.HomeViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 
 @Composable
 fun homeScreen(navController: NavHostController) {
@@ -196,16 +199,8 @@ fun SingleProduct(product: Product) {
                 modifier = Modifier.padding(2.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                product.imageUrls?.firstOrNull()?.let { imageUrl ->
-                    Image(
-                        painter = rememberImagePainter(imageUrl),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(0.6f)
-                            .width(80.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                    )
+                product.imageUrls?.let { imageUrls ->
+                    ImageSlider(images = imageUrls)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -237,6 +232,7 @@ fun SingleProduct(product: Product) {
     }
 }
 
+
 @Composable
 fun fixProduct(){
     Box(
@@ -248,13 +244,13 @@ fun fixProduct(){
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(2.dp)
+                .padding(0.5.dp)
                 .wrapContentSize(),
             shape = RoundedCornerShape(8.dp),
 
             ) {
             Column(
-                modifier = Modifier.padding(2.dp),
+                modifier = Modifier.padding(0.2.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -263,7 +259,6 @@ fun fixProduct(){
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(0.85f)
-                        .width(80.dp)
                         .clip(RoundedCornerShape(8.dp))
                 )
                 Spacer(modifier = Modifier.height(2.dp))
@@ -280,4 +275,37 @@ fun fixProduct(){
     }
 }
 
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun ImageSlider(images: List<String>) {
+    val pagerState = rememberPagerState()
+
+    Box {
+        HorizontalPager(
+            count = images.size,
+            state = pagerState,
+            modifier = Modifier
+                .width(100.dp)
+                .height(100.dp)
+                .clip(RoundedCornerShape(8.dp))
+        ) { page ->
+            Image(
+                painter = rememberImagePainter(images[page]),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(100.dp)
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
 

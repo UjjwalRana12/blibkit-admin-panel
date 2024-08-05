@@ -107,4 +107,8 @@ dependencies {
 
 
     implementation("androidx.compose.material3:material3:1.1.2")
+
+    implementation ("com.google.accompanist:accompanist-pager:0.24.8-beta")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.24.8-beta")
+
 }
