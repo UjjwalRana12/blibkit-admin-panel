@@ -21,7 +21,7 @@ class AdminViewModel : ViewModel() {
     private val _isProductSaved = MutableStateFlow(false)
     val isProductSaved: StateFlow<Boolean> get() = _isProductSaved
 
-     fun saveImageInDB(imageUris: List<Uri>, onComplete: (List<String>) -> Unit) {
+    fun saveImageInDB(imageUris: List<Uri>, onComplete: (List<String>) -> Unit) {
         val downloadURLs = mutableListOf<String>()
         val storageReference = FirebaseStorage.getInstance().reference.child(Utils.getCurrentUserID().toString())
 
